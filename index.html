@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FocusFlow - Умный Pomodoro Таймер</title>
+    <meta name="description" content="Продвинутый таймер для техники Pomodoro с аналитикой и задачами">
+    <meta name="theme-color" content="#5e72e4">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="manifest" href="manifest.json">
+</head>
+<body>
+    <div class="app-container">
+        <header class="app-header">
+            <div class="header-left">
+                <h1>FocusFlow</h1>
+                <div class="theme-switcher">
+                    <button id="theme-toggle" aria-label="Переключить тему">
+                        <i class="fas fa-moon"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="header-right">
+                <button id="fullscreen-btn" class="icon-btn" aria-label="Полноэкранный режим">
+                    <i class="fas fa-expand"></i>
+                </button>
+                <button id="settings-toggle" class="icon-btn" aria-label="Настройки">
+                    <i class="fas fa-cog"></i>
+                </button>
+            </div>
+        </header>
+
+        <main class="app-main">
+            <div class="timer-section">
+                <div class="mode-tabs">
+                    <button class="mode-tab active" data-mode="pomodoro">
+                        <i class="fas fa-briefcase"></i>
+                        <span>Работа</span>
+                    </button>
+                    <button class="mode-tab" data-mode="short-break">
+                        <i class="fas fa-coffee"></i>
+                        <span>Короткий перерыв</span>
+                    </button>
+                    <button class="mode-tab" data-mode="long-break">
+                        <i class="fas fa-couch"></i>
+                        <span>Длинный перерыв</span>
+                    </button>
+                </div>
+
+                <div class="timer-display">
+                    <div class="time">25:00</div>
+                    <div class="progress-container">
+                        <div class="progress-bar"></div>
+                    </div>
+                </div>
+
+                <div class="timer-controls">
+                    <button id="start-btn" class="control-btn primary">
+                        <i class="fas fa-play"></i>
+                        <span>Старт</span>
+                    </button>
+                    <button id="pause-btn" class="control-btn secondary" disabled>
+                        <i class="fas fa-pause"></i>
+                        <span>Пауза</span>
+                    </button>
+                    <button id="reset-btn" class="control-btn tertiary">
+                        <i class="fas fa-redo"></i>
+                        <span>Сброс</span>
+                    </button>
+                </div>
+
+                <div class="session-counter">
+                    <span>Сессий сегодня: </span>
+                    <span id="session-count">0</span>
+                </div>
+            </div>
+
+            <div class="tasks-section">
+                <h2><i class="fas fa-tasks"></i> Мои задачи</h2>
+                <div class="task-input-container">
+                    <input type="text" id="task-input" placeholder="Добавить новую задачу...">
+                    <button id="add-task-btn" class="icon-btn">
+                        <i class="fas fa-plus"></i>
+                    </button>
+                </div>
+                <ul id="task-list" class="task-list"></ul>
+            </div>
+        </main>
+
+        <aside class="settings-panel" id="settings-panel">
+            <div class="settings-header">
+                <h2><i class="fas fa-cog"></i> Настройки</h2>
+                <button id="close-settings" class="icon-btn">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+
+            <div class="settings-content">
+                <div class="settings-group">
+                    <h3><i class="fas fa-clock"></i> Время</h3>
+                    <div class="setting">
+                        <label for="pomodoro-time">Работа (мин):</label>
+                        <input type="number" id="pomodoro-time" min="1" max="60" value="25">
+                    </div>
+                    <div class="setting">
+                        <label for="short-break-time">Короткий перерыв (мин):</label>
+                        <input type="number" id="short-break-time" min="1" max="15" value="5">
+                    </div>
+                    <div class="setting">
+                        <label for="long-break-time">Длинный перерыв (мин):</label>
+                        <input type="number" id="long-break-time" min="1" max="30" value="15">
+                    </div>
+                </div>
+
+                <div class="settings-group">
+                    <h3><i class="fas fa-bell"></i> Уведомления</h3>
+                    <div class="setting">
+                        <label for="auto-start">Автостарт перерывов</label>
+                        <input type="checkbox" id="auto-start">
+                    </div>
+                    <div class="setting">
+                        <label for="notifications">Включить уведомления</label>
+                        <input type="checkbox" id="notifications" checked>
+                    </div>
+                    <div class="setting">
+                        <label for="inactivity-pause">Пауза при бездействии</label>
+                        <input type="checkbox" id="inactivity-pause" checked>
+                    </div>
+                </div>
+
+                <div class="settings-group">
+                    <h3><i class="fas fa-chart-bar"></i> Аналитика</h3>
+                    <button id="view-stats" class="settings-btn">
+                        <i class="fas fa-chart-pie"></i> Просмотреть статистику
+                    </button>
+                    <button id="export-stats" class="settings-btn">
+                        <i class="fas fa-file-export"></i> Экспорт данных
+                    </button>
+                </div>
+
+                <div class="settings-group">
+                    <h3><i class="fas fa-language"></i> Язык</h3>
+                    <select id="language-select" class="settings-select">
+                        <option value="ru">Русский</option>
+                        <option value="en">English</option>
+                        <option value="es">Español</option>
+                        <option value="fr">Français</option>
+                    </select>
+                </div>
+            </div>
+        </aside>
+
+        <div class="stats-modal" id="stats-modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2><i class="fas fa-chart-bar"></i> Статистика продуктивности</h2>
+                    <button id="close-stats" class="icon-btn">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <div class="stat-value" id="today-sessions">0</div>
+                            <div class="stat-label">Сегодня</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-value" id="week-sessions">0</div>
+                            <div class="stat-label">На этой неделе</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-value" id="total-sessions">0</div>
+                            <div class="stat-label">Всего</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-value" id="focus-time">0ч 0м</div>
+                            <div class="stat-label">Общее время</div>
+                        </div>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="productivity-chart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <audio id="alarm" src="https://assets.mixkit.co/sfx/preview/mixkit-alarm-digital-clock-beep-989.mp3"></audio>
+    <audio id="tick-sound" src="https://assets.mixkit.co/sfx/preview/mixkit-clock-countdown-bleeps-916.mp3"></audio>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
